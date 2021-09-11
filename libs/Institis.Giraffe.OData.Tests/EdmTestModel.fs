@@ -1,7 +1,12 @@
 namespace Institis.Giraffe.OData
 
+open System.IO
+open System.Xml
 open Microsoft.OData.Edm
-
+open FsUnit
+open Microsoft.OData.Edm.Csdl
+open Xunit
+open FSharp.Control.Tasks
 
 module TestModel =
     
@@ -34,3 +39,20 @@ module TestModel =
         
         model.AddElement container        
         model
+
+
+    [<Fact>]
+    let ``Model should be serialized to XML`` () =
+        
+        let writeMeta (strm: Stream) = async {
+            use xmlWriter = XmlWriter.Create(strm)
+            let success, _ = CsdlWriter.TryWriteCsdl(edmModel, xmlWriter, CsdlTarget.OData)
+            return success
+        }
+        
+        task {
+            use metaStream = new MemoryStream()
+            let! result = writeMeta metaStream |> Async.StartAsTask
+            result |> should be True
+        } 
+    
