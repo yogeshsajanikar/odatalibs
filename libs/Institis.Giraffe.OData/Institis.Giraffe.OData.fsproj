@@ -1,10 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <AssemblyName>Institis.Giraffe.OData</AssemblyName>
+    <Description>OData handlers for Giraffe, to be used in conjunction with EDM Model</Description>
+    <Authors>Yogesh Sajanikar</Authors>
+    
+    <!-- Build Settings -->
     <TargetFramework>net5.0</TargetFramework>
+    <DebugType>portable</DebugType>
+    <OutputType>Library</OutputType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <WarnOn>3390;$(WarnOn)</WarnOn>
-    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    
+    <!-- Nuget settings -->
+    <PackageId>Institis.Giraffe.OData</PackageId>
+    <PackageTags>Giraffe;ASP.NET Core;Lambda;FSharp;Functional;Http;Web;OData</PackageTags>
+    <PackageReleaseNotes>https://raw.githubusercontent.com/institis/odatalibs/main/RELEASE-NOTES.md</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/institis/odatalibs</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/institis/odatalibs</RepositoryUrl>
+    
+    <!-- Sourcelink settings -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
