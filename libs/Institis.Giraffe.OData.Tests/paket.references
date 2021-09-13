@@ -2,6 +2,6 @@ Microsoft.NET.Test.Sdk
 xunit
 xunit.runner.console
 FSharp.Core
-xunit.runner.visualstudio
 NSubstitute
 FsUnit.xUnit
+xunit.runner.visualstudio

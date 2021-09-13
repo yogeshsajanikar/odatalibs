@@ -325,4 +325,4 @@ NUGET
       NETStandard.Library (>= 1.6.1)
       xunit.extensibility.core (2.4.1)
     xunit.runner.console (2.4.1) - copy_local: false
-    xunit.runner.visualstudio (2.4.3) - copy_local: false
+    xunit.runner.visualstudio (2.4.3)

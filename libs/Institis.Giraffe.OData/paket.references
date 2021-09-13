@@ -2,4 +2,3 @@ FSharp.Core
 Microsoft.OData.Core
 Microsoft.OData.Edm
 Giraffe
-xunit.runner.visualstudio

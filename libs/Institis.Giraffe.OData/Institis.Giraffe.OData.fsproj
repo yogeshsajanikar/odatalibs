@@ -31,6 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Segment.fs" />
+    <Compile Include="Context.fs" />
     <Compile Include="Routing.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

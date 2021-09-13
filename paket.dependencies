@@ -10,4 +10,4 @@ nuget Microsoft.OData.Core
 nuget NSubstitute
 nuget xunit
 nuget xunit.runner.console      copy_local: false
-nuget xunit.runner.visualstudio copy_local: false
+nuget xunit.runner.visualstudio

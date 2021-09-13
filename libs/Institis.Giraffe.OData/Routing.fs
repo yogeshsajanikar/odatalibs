@@ -2,7 +2,6 @@
 
 open System
 open System.IO
-open System.Net.Mime
 open System.Xml
 open Giraffe
 open Microsoft.AspNetCore.Http
@@ -12,7 +11,7 @@ open Microsoft.OData.Edm.Csdl
 open Microsoft.OData.UriParser
 open FSharp.Control.Tasks
 
-[<RequireQualifiedAccess>]
+
 module Routing =
     
     type ODataRequest(model: EdmModel, uriParser: ODataUriParser, path: ODataPath) =
@@ -91,3 +90,4 @@ module Routing =
                 else
                     return! skipPipeline
             }
+            
