@@ -9,22 +9,32 @@ open FsUnit.Xunit
 
 
 module UriParserTests =
-    
+
     //open Institis.Giraffe.OData
-    
+
     [<Fact>]
     let ``URI Parser parses relative URI`` () =
-       let parser = ODataUriParser (TestModel.edmModel, Uri("Persons", UriKind.Relative))
-       let oDataPath = parser.ParsePath ()
-       Assert.Equal(1, oDataPath.Count)
-       Assert.Equal("Persons", oDataPath.FirstSegment.Identifier)
+        let parser =
+            ODataUriParser(TestModel.edmModel, Uri("Persons", UriKind.Relative))
+
+        let oDataPath = parser.ParsePath()
+        Assert.Equal(1, oDataPath.Count)
+        Assert.Equal("Persons", oDataPath.FirstSegment.Identifier)
 
 
     [<Fact>]
     let ``URI Parser raises exception for invalid path`` () =
-        (fun () -> 
-            let parser = ODataUriParser (EdmModel(), Uri("Persons", UriKind.Relative))
-            parser.ParsePath () |> ignore
-            ) |> should throw typeof<ODataUnrecognizedPathException>
-            
-        
+        (fun () ->
+            let parser =
+                ODataUriParser(EdmModel(), Uri("Persons", UriKind.Relative))
+
+            parser.ParsePath() |> ignore)
+        |> should throw typeof<ODataUnrecognizedPathException>
+
+
+    [<Fact>]
+    let ``URI Parser with container name`` () =
+        let parser =
+            ODataUriParser(EdmModel(), Uri("$metadata", UriKind.Relative))
+        let path = parser.ParsePath()
+        path.Count |> should be (greaterThan 0)

@@ -34,6 +34,7 @@
     <Compile Include="Segment.fs" />
     <Compile Include="Context.fs" />
     <Compile Include="Routing.fs" />
+    <Compile Include="Response.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

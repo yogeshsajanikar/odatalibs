@@ -9,50 +9,72 @@ open Xunit
 open FSharp.Control.Tasks
 
 module TestModel =
-    
+
     let edmNamespace = "Institis.OData"
     let typeNamespace = $"{edmNamespace}.Types"
-    
+
     let edmModel =
         let model = EdmModel()
-        
-        let idType = EdmTypeDefinition(typeNamespace, "IdType", EdmPrimitiveTypeKind.Double)
-        let idTypeRef = EdmTypeDefinitionReference(idType, false)
-        
+
+        let idType =
+            EdmTypeDefinition(typeNamespace, "IdType", EdmPrimitiveTypeKind.Double)
+
+        let idTypeRef =
+            EdmTypeDefinitionReference(idType, false)
+
         model.AddElement idType
-        
-        let stringType = EdmTypeDefinition(typeNamespace, "StringType", EdmPrimitiveTypeKind.String)
-        let stringTypeRef = EdmTypeDefinitionReference(stringType, false)
-        
+
+        let stringType =
+            EdmTypeDefinition(typeNamespace, "StringType", EdmPrimitiveTypeKind.String)
+
+        let stringTypeRef =
+            EdmTypeDefinitionReference(stringType, false)
+
         let personType = EdmEntityType(typeNamespace, "Person")
-        let employeeType = EdmEntityType(typeNamespace, "Employee", personType)
-        
-        let personKey = personType.AddStructuralProperty ("ID", EdmCoreModel.Instance.GetInt32 false)
-        personType.AddStructuralProperty("SSN", EdmCoreModel.Instance.GetString true) |> ignore
+
+        let employeeType =
+            EdmEntityType(typeNamespace, "Employee", personType)
+
+        let personKey =
+            personType.AddStructuralProperty("ID", EdmCoreModel.Instance.GetInt32 false)
+
+        personType.AddStructuralProperty("SSN", EdmCoreModel.Instance.GetString true)
+        |> ignore
+
         personType.AddKeys personKey
 
         model.AddElement personType
         model.AddElement employeeType
-        
-        let container = EdmEntityContainer(typeNamespace, "Types")
-        container.AddEntitySet ("Persons", personType) |> ignore
-        
-        model.AddElement container        
+
+        let container =
+            EdmEntityContainer(typeNamespace, "Types")
+
+        container.AddEntitySet("Persons", personType)
+        |> ignore
+
+        model.AddElement container
         model
 
 
     [<Fact>]
     let ``Model should be serialized to XML`` () =
-        
-        let writeMeta (strm: Stream) = async {
-            use xmlWriter = XmlWriter.Create(strm)
-            let success, _ = CsdlWriter.TryWriteCsdl(edmModel, xmlWriter, CsdlTarget.OData)
-            return success
-        }
-        
+
+        let writeMeta (outStream: Stream) =
+            async {
+                use xmlWriter = XmlWriter.Create(outStream)
+
+                let success, _ =
+                    CsdlWriter.TryWriteCsdl(edmModel, xmlWriter, CsdlTarget.OData)
+
+                return success
+            }
+
         task {
             use metaStream = new MemoryStream()
             let! result = writeMeta metaStream |> Async.StartAsTask
             result |> should be True
-        } 
-    
+            metaStream.Position <- 0L
+            use xmlReader = XmlReader.Create metaStream
+            let readResult, model, _  = CsdlReader.TryParse xmlReader
+            readResult |> should be True
+        }

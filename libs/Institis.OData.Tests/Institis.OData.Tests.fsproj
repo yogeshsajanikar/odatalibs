@@ -6,14 +6,11 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="EdmTestModel.fs" />
-    <Compile Include="UriParserTest.fs" />
-    <Compile Include="SegmentTest.fs" />
-    <Compile Include="RoutingTest.fs" />
+    <Compile Include="Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Institis.Giraffe.OData\Institis.Giraffe.OData.fsproj" />
+    <ProjectReference Include="..\Institis.OData\Institis.OData.fsproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <Import Project=".paket\Paket.Restore.targets" />
 </Project>
