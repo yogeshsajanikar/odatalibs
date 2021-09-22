@@ -101,4 +101,6 @@ Global
 		{511ED07A-CD5D-44F2-994F-03BCC5D605B8}.Release|x86.ActiveCfg = Release|Any CPU
 		{511ED07A-CD5D-44F2-994F-03BCC5D605B8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
 EndGlobal

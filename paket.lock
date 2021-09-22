@@ -14,6 +14,8 @@ NUGET
       System.Reflection.TypeExtensions (>= 4.3)
       System.Xml.XmlDocument (>= 4.3)
     FSharp.Core (5.0.2)
+    FSharpPlus (1.2.1)
+      FSharp.Core (>= 4.6.2)
     FsUnit.xUnit (4.0.6)
       FSharp.Core (>= 4.7.2)
       NETStandard.Library (>= 2.0.3)

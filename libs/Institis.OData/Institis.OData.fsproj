@@ -6,7 +6,9 @@
     <WarnOn>3390;$(WarnOn)</WarnOn>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Library.fs" />
+    <Compile Include="Request.fs" />
+    <Compile Include="Response.fs" />
+    <Compile Include="ODataApp.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
