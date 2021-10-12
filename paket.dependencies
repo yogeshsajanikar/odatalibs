@@ -6,6 +6,7 @@ nuget FSharp.Core
 nuget FSharpPlus
 nuget FsUnit.xUnit
 nuget Giraffe
+nuget Microsoft.AspNetCore
 nuget Microsoft.NET.Test.Sdk
 nuget Microsoft.OData.Core
 nuget NSubstitute

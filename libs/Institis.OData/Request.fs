@@ -1,38 +1,63 @@
-namespace Institis.OData.Message
+module Institis.OData.Message
 
 open System
 open System.Collections.Generic
-open FSharpPlus
+open FSharpPlus.Operators
+open Microsoft.AspNetCore.Http
+open Microsoft.Extensions.Primitives
 open Microsoft.OData
 open Microsoft.OData.Edm
+open Microsoft.AspNetCore.Http.Extensions
 open Microsoft.OData.UriParser
 
-type Request (model: EdmModel, url: Uri, headers: IDictionary<string,string>, method: string) =
+type Request (model: EdmModel, context: HttpContext) =
     
-    let mutable _headers = headers
-    
-    do
-        if (url.IsAbsoluteUri) then 
-            invalidArg "url" "The URL must be relative"
-    
-    interface IODataRequestMessage with
-        member this.GetHeader header = _headers.Item header
-        member this.SetHeader(header, value) = _headers.Item header <- value
-        member this.Headers with get () = upcast _headers 
+    interface IODataRequestMessageAsync with
+        member this.GetHeader header =
+            let sValue = context.Request.Headers.Item header
+            sValue.ToString()
+            
+        member this.SetHeader(header, value) = context.Request.Headers.Item header <- StringValues(value)
+        member this.Headers with get () = context.Request.Headers |> Seq.map (fun kv -> KeyValuePair(kv.Key, kv.Value.ToString()))
 
         member this.Method
-            with get () = method
+            with get () = context.Request.Method
             and set value = raise (NotImplementedException())
 
         member this.Url
-            with get () = url
+            with get () = Uri(context.Request.GetEncodedUrl())
             and set value = raise (NotImplementedException())
 
-        member this.GetStream() = raise (NotImplementedException())
+        member this.GetStream() = context.Request.Body
+        
+        member this.GetStreamAsync() = async { return context.Request.Body } |> Async.StartAsTask
+        
+        
+type ODataRequestComponent =
+    | ODataRequestPath of ODataPathSegment * ODataUri
+    | ODataQueryParam of ODataUri
+    
+let requestSegments (uri: ODataUri) = 
+    let paths = uri.Path |> Seq.map (fun p -> ODataRequestPath (p, uri))
+    seq {
+        yield! paths
+    }
+    
+let requestQueryParams (uri: ODataUri) =
+    seq {
+        yield ODataQueryParam uri
+    }
+
+let requestComponents (uri: ODataUri) =
+    seq {
+        yield! requestSegments uri
+        yield! requestQueryParams uri 
+    }
+    
+let navigationSource () = raise (NotImplementedException())
 
 
-    member val Parser  = ODataUriParser(model, url)
-
+let canonicalUri (comps: seq<ODataRequestComponent>) : string = raise (NotImplementedException()) 
 
 type CollectionNavigation = NA
 type SingleNavigation = NA
@@ -81,4 +106,7 @@ module ODataRequest =
 //            _type <- MetaUri 
     
     
-    let parserType (parser: ODataUriParser) : ODataUriType = raise (NotImplementedException())
+    let parserType (parser: ODataUri) : ODataUriType = raise (NotImplementedException())
+
+
+let oDataRequest (model: EdmModel) (ctx: HttpContext) : IODataRequestMessage = raise (NotImplementedException()) 

@@ -9,6 +9,7 @@
     <Compile Include="Request.fs" />
     <Compile Include="Response.fs" />
     <Compile Include="ODataApp.fs" />
+    <Compile Include="UriProtocol.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

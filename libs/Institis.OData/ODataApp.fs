@@ -2,16 +2,22 @@ namespace Institis.OData.Application
 
 open System
 open Institis.OData.Message
+open Microsoft.AspNetCore.Http
+open Microsoft.OData
 open Microsoft.OData.Edm
+
+type ODataContext (context: HttpContext) =
+    
+    class end
 
 // An ODATA application essentially converts an ODATA URI to a correct response. For the simplicity, the response
 // is measured as a stream
 
-/// A generic odata app, that can process the URI request and convert it into a result
+/// An OData application is the one that takes an odata request, and converts it into a response.
 type IApp =
     interface
         /// Handle the URI Request, and write the output to the given stream.
-        abstract handle : Request -> Response -> Async<Response>
+        abstract handle : HttpContext -> (HttpContext -> IODataRequestMessageAsync) -> (HttpContext -> IODataResponseMessageAsync)
     end
 
 /// An ODATA app with an ability to handle each part of the URI separately.
@@ -25,7 +31,8 @@ type App() =
     interface IApp with
 
         member this.handle request response =
-            match ODataRequest.parserType request.Parser with
+            let oDataUri = 
+            match ODataRequest.parserType request.ODataUri with
             | MetaUri x -> this.handle (request, x, response)
             | BatchUri x -> raise (NotImplementedException())
             | ResourceUri x ->
